@@ -1,17 +1,24 @@
+
+#pragma once
 #include <iostream>
-#include <arrays>
+#include <ostream>
+#include <vector>
+// #include <arrays>
 
 class Span {
-    Span(unsigned int n);
-    Span(const Span& obj);
-    Span &operator=(const Span& obj);
-    ~Span();
-    addNumber();
-    shortestSpan();
-    longestSpan();
-
-    private:
-        const unsigned int indx;
-        const unsigned int maxIndx;
-        std::vector<int> span; 
+	public:
+	Span(unsigned int n);
+	Span(const Span& obj);
+	Span &operator=(const Span& obj);
+	~Span();
+	void addNumber(int nbr);
+	int shortestSpan();
+	// int longestSpan();
+	
+	private:
+		const unsigned int maxIndx;
+		unsigned int indx;
+		std::vector<int> span;
 };
+
+std::ostream operator<<(std::ostream os, const Span& obj);
