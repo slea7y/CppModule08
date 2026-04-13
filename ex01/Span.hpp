@@ -13,11 +13,14 @@ class Span {
 	~Span();
 	void addNumber(int nbr);
 	int shortestSpan();
-	// int longestSpan();
-	
+	int longestSpan();
+	std::vector<int> getSpan();
+	unsigned int getSize() {
+		return this->size;
+	}
 	private:
 		const unsigned int maxIndx;
-		unsigned int indx;
+		unsigned int size;
 		std::vector<int> span;
 };
 
