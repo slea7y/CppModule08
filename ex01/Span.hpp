@@ -3,25 +3,23 @@
 #include <iostream>
 #include <ostream>
 #include <vector>
-// #include <arrays>
+#include <ctime>
 
 class Span {
 	public:
-	Span(unsigned int n);
-	Span(const Span& obj);
-	Span &operator=(const Span& obj);
-	~Span();
-	void addNumber(int nbr);
-	int shortestSpan();
-	int longestSpan();
-	std::vector<int> getSpan();
-	unsigned int getSize() {
-		return this->size;
-	}
+		Span(unsigned int n);
+		Span(const Span& obj);
+		Span &operator=(const Span& obj);
+		~Span();
+		void addNumber(int nbr);
+		void addNumber(int range, time_t time);
+		int shortestSpan();
+		int longestSpan();
+		const std::vector<int>& getSpan() const;
+		unsigned int getSize() const;
 	private:
-		const unsigned int maxIndx;
-		unsigned int size;
+		unsigned int maxSize;
 		std::vector<int> span;
 };
 
-std::ostream operator<<(std::ostream os, const Span& obj);
+std::ostream& operator<<(std::ostream& os, const Span& obj);

@@ -2,83 +2,80 @@
 #include <climits>
 #include <cmath>
 #include <algorithm>
+#include <stdexcept>
 
 
-Span::Span(unsigned int n) : maxIndx(n), size(0) {
+Span::Span(unsigned int n) : maxSize(n) {
 }
 
+Span::Span(const Span& obj) {
+	this->maxSize = obj.maxSize;
+	this->span = obj.span;
+}
 
-// Span::Span(const Span& obj) {
-
-// }
-
-// Span &Span::operator=(const Span& obj) {
-// 	if (this == &obj)
-// 	{
-
-// 	}
-// 	return *this;
-// }
+Span &Span::operator=(const Span& obj) {
+	if (this != &obj)
+	{
+		this->maxSize = obj.maxSize;
+		this->span = obj.span;
+	}
+	return *this;
+}
 
 Span::~Span() {}
 
-// template <typename T> T max(T a, T b){
-// 	return (a > b) ? a : b;
-// }
-
-// template <typename T> T min(T a, T b){
-// 	return (a < b) ? a : b;
-// }
-
-// template <typename T> void swap(T& a, T& b){
-// 	T temp = a;
-// 	a = b;
-// 	b = temp;
-// }
-
-
-
-std::vector<int> Span::getSpan(){
-	return (this->span);
+const std::vector<int>& Span::getSpan() const {
+	return this->span;
 }
 
-//maybe make it from largetst to smallest to then sub idk
 int Span::shortestSpan() {
+	if (this->span.size() < 2) {
+		throw std::logic_error("not enough elements");
+	}
 	int shortestSpan = INT_MAX;
+	std::vector<int> temp = this->span;
 
-	sort(this->span.rbegin(), this->span.rend());
-	for (unsigned int i = 0; i < this->size - 1; i++) {
-		printf("a= %i, b= %i, calc = %i, bool = %i\n",this->span[i], this->span[i + 1], this->span[i] - this->span[i + 1], this->span[i] - this->span[i + 1] < shortestSpan);
-		if (this->span[i] - this->span[i + 1] < shortestSpan){
-			printf("hereee\n");
-			shortestSpan = this->span[i] - this->span[i + 1];}
-	} 
+std::sort(temp.begin(), temp.end());
+
+	for (size_t i = 0; i < temp.size() - 1; i++) {
+		int diff = temp[i + 1] - temp[i];
+		if (diff < shortestSpan)
+		shortestSpan = diff;
+	}
 	return shortestSpan;
 }
 
 
-//wtf is auto?? ok 
 int Span::longestSpan() {
-	int longestSpan ;
+	if (this->span.size() < 2) {
+		throw std::logic_error("not enough elements");
+	}
 	auto a = std::max_element(this->span.begin(), this->span.end());
-	std::cout << " check bby: " <<*a;
-	
 	auto b = std::min_element(this->span.begin(), this->span.end());
-	std::cout << " check bby: " << *b << std::endl ;
-	
-	longestSpan = *a - *b;
-	
-	return longestSpan;
+
+	return *a - *b;
 }
 
 void Span::addNumber(int nbr) {
-	this->size += 1;
-	if (this->size > this->maxIndx)
+	if (this->span.size() >= this->maxSize)
 		throw std::out_of_range("out of range");
 	else
 		this->span.push_back(nbr);
 }
 
-// std::ostream& operator<<(std::ostream& os, const Span& obj) {
-// 	obj.
-// }
+void Span::addNumber(int range, time_t time) {
+	if (this->span.size() + range > this->maxSize)
+		throw std::out_of_range("out of range");
+	std::srand(static_cast<unsigned int>(time));
+	for (int i = 0; i < range; i++) {
+		this->addNumber(rand());
+	}
+}
+
+std::ostream& operator<<(std::ostream& os, const Span& obj) {
+	const std::vector<int>& v = obj.getSpan();
+	for (size_t i = 0; i < v.size(); i++) {
+		os << v[i] << " ";
+	}
+	return os;
+}
