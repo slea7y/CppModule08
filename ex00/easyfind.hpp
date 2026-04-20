@@ -1,12 +1,11 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <exception>
 
-template <typename T> T easyfind(std::vector<T> container, int val){
-    for (int i = 0; i < container.size(); i++) {
-        if (container.at(i) == val)
-            return container.at(i);
-    }
-    throw ("value not found");
+template <typename T>
+typename T::iterator easyfind(T& container, int val){
+	typename T::iterator it;
+	for (it = container.begin(); it != container.end(); it++) {
+		if (*it == val)
+			return it;
+	}
+	throw std::runtime_error("value not found");
 }
